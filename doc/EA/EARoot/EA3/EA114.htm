@@ -1,0 +1,661 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>pathfinding::Astar</title>
+<link href="../../css/ea.css" rel="stylesheet" type="text/css" />
+<script>
+function initPage(src) {	
+	if(parent==this&&(this.location+"").indexOf('EARoot')!=-1)
+		document.location=(this.location+"").substring(0,(this.location+"").indexOf('EARoot'))+"index"+(this.location+"").substring((this.location+"").lastIndexOf('.'))+"?goto="+((this.location+"").substring((this.location+"").indexOf('EARoot')+7,(this.location+"").lastIndexOf('.')).replace(/\//g,':').replace(/EA/g,""));
+	else
+		parent.initPage(src);
+}
+
+function nameClassifier(name, separator)
+{
+  var str = name;
+  var classifierName;
+  var node = document.getElementById('name_classifier');
+  if(node != null)
+  {
+    classifierName = node.innerHTML;
+  }
+  if(classifierName != "")
+  {
+   str += separator + classifierName;
+  }
+  
+  return str;
+}
+</script>
+</head>
+<body onload="initPage(this);" class="Content">
+<div class="pageHeader"></div>
+<div class="PageBody">
+	<div id="name_classifier" style="display: none;"></div>
+	<span class="ObjectTitle"><script type="text/javascript">document.write(nameClassifier("Astar", " : "))</script>  : Public abstract  Class</span>
+	<table border="0" cellpadding="0" cellspacing="0" class="ObjectDetails">
+		<tr>
+			<td width="15%" class="ObjectDetailsTopic">Created:</td>
+			<td width="85%" class="ObjectDetailsValue">13.09.2013 22:31:22</td>
+		</tr>
+		<tr>
+			<td class="ObjectDetailsTopic">Modified:</td>
+			<td class="ObjectDetailsValue">31.08.2014 21:04:09</td>
+		</tr>
+		<tr style="height: 10px"><td colspan="2"></td></tr>
+		<tr>
+			<td class="ObjectDetailsTopic"><img src="../../images/plus03.gif" align="absmiddle" id="proj" onclick="parent.toggleData(this.id)" />Project:</td>
+			<td class="ObjectDetailsValue"></td>
+		</tr>
+		<tr id="proj00" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Author:</td>
+			<td class="ObjectDetailsValue">Frithjof</td>
+		</tr>
+		<tr id="proj01" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Version:</td>
+			<td class="ObjectDetailsValue">1.0</td>
+		</tr>
+		<tr id="proj02" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Phase:</td>
+			<td class="ObjectDetailsValue">1.0</td>
+		</tr>
+		<tr id="proj03" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Status:</td>
+			<td class="ObjectDetailsValue">Proposed</td>
+		</tr>
+		<tr id="proj04" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Complexity:</td>
+			<td class="ObjectDetailsValue">Easy</td>
+		</tr>
+		<tr id="proj05" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Difficulty:</td>
+			<td class="ObjectDetailsValue"></td>
+		</tr>
+		<tr id="proj06" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Priority:</td>
+			<td class="ObjectDetailsValue"></td>
+		</tr>
+		<tr id="proj05" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Multiplicity:</td>
+			<td class="ObjectDetailsValue"></td>
+		</tr>
+		<tr>
+			<td class="ObjectDetailsTopic"><img src="../../images/plus03.gif" align="absmiddle" id="adv" onclick="parent.toggleData(this.id)" />Advanced:</td>
+			<td class="ObjectDetailsValue"></td>
+		</tr>
+		<tr id="adv00" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">UUID:</td>
+			<td class="ObjectDetailsValue">{720463F0-1A60-4e7b-A6BE-B4B5B19BF9F7}</td>
+		</tr>
+		<tr id="adv01" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Appears In:</td>
+			<td class="ObjectDetailsValue"><a href="EA112.htm">pathfinding</a>, <a href="../EA1/EA1/EA40.htm">algorithms</a>, algorithms, pathfinding</td>
+		</tr>
+	</table>
+	<div class="ObjectDetailsNotes">Implementiert den A* Algorithmus auf einem Abstrakten Level.</div>
+
+	<div class="TableGroup" id="TableGroup">
+		<ul class="ItemTitle">
+			<li onClick="parent.toggleItem('LinkedDocument');" id="LinkedDocumentTitle">Linked Document</li>
+			<li onClick="parent.toggleItem('Operations');" id="OperationsTitle">Operations</li>
+			<li onClick="parent.toggleItem('AssociationsFrom');" id="AssociationsFromTitle">Associations From</li>
+			<li onClick="parent.toggleItem('Links');" id="LinksTitle">Other Links</li>
+		</ul>
+		<div class="ItemBody" id="LinkedDocumentTable">
+			<iframe src="../../linkdocs/EAID_720463F0_1A60_4e7b_A6BE_B4B5B19BF9F7.htm" frameborder="0" id="linkDocIFrame"></iframe>
+		</div>
+<div class="ItemBody" id="OperationsTable">
+	<table border="0" cellspacing="0" cellpadding="0" class="Table">
+		<tr>
+			<td width="100%" class="TableHeading">Operation</td>
+		</tr>
+						<tr>
+				<td width="100%" class="TableRow">
+					<i>Public</i><br />
+					<strong>addKnownNote</strong>(					<a href="#" onclick="parent.toggleData('param{EDE6C131-C64C-47d3-8750-E817B1F2EE2C}')" style="text-decoration: none; color: #000000;"><img src="../../images/plus03.gif" align="absmiddle" id="param{EDE6C131-C64C-47d3-8750-E817B1F2EE2C}" border="0" />seenNotes: PathNode</a>, 
+					<table border="0" cellspacing="0" cellpadding="0" class="Table" style="padding: 4px 18px;">
+						<tr id="param{EDE6C131-C64C-47d3-8750-E817B1F2EE2C}00" style="display: none;">
+							<td width="50"><strong>Default:</strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{EDE6C131-C64C-47d3-8750-E817B1F2EE2C}01" style="display: none;">
+							<td width="50"><strong>Kind:</strong></td>
+							<td>in</td>
+						</tr>
+						<tr id="param{EDE6C131-C64C-47d3-8750-E817B1F2EE2C}02" style="display: none;">
+							<td width="50"><strong>Stereotype: </strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{EDE6C131-C64C-47d3-8750-E817B1F2EE2C}03" style="display: none;">
+							<td width="50"></td>
+							<td><div class="ObjectDetailsNotes">Der zu hinzufügende Knotenpunkt.</div>
+</td>
+						</tr>
+					</table>
+):void
+				</td>
+			</tr>
+			<tr>
+				<td class="TableRowBottomDashed"  colspan="1">
+					<div class="DetailsDivParent"><img src="../../images/minus03.gif" align="absmiddle" id="DetailsImageOperations174" onclick="parent.toggleDiv('detailsDIVOperations174','DetailsImageOperations174')" />Details:
+						<div id="detailsDIVOperations174" class="DetailsDiv" >
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					
+					
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			Fügt eine bekannten Knotenpunkt zur Liste aller bekannten Knotenpunkte hinzu.
+		</td>
+	</tr>
+</table></div>
+
+						</div>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td width="100%" class="TableRow">
+					<i>Public</i><br />
+					<strong>addSeenNotes</strong>(					<a href="#" onclick="parent.toggleData('param{E6FFFF84-C267-48c2-8EF4-44B8ECC877F8}')" style="text-decoration: none; color: #000000;"><img src="../../images/plus03.gif" align="absmiddle" id="param{E6FFFF84-C267-48c2-8EF4-44B8ECC877F8}" border="0" />seenNotes: ArrayList&lt;PathNode&gt;</a>, 
+					<table border="0" cellspacing="0" cellpadding="0" class="Table" style="padding: 4px 18px;">
+						<tr id="param{E6FFFF84-C267-48c2-8EF4-44B8ECC877F8}00" style="display: none;">
+							<td width="50"><strong>Default:</strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{E6FFFF84-C267-48c2-8EF4-44B8ECC877F8}01" style="display: none;">
+							<td width="50"><strong>Kind:</strong></td>
+							<td>in</td>
+						</tr>
+						<tr id="param{E6FFFF84-C267-48c2-8EF4-44B8ECC877F8}02" style="display: none;">
+							<td width="50"><strong>Stereotype: </strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{E6FFFF84-C267-48c2-8EF4-44B8ECC877F8}03" style="display: none;">
+							<td width="50"></td>
+							<td><div class="ObjectDetailsNotes">Die zu hinzuzufügenden Knotenpunkte.</div>
+</td>
+						</tr>
+					</table>
+):void
+				</td>
+			</tr>
+			<tr>
+				<td class="TableRowBottomDashed"  colspan="1">
+					<div class="DetailsDivParent"><img src="../../images/minus03.gif" align="absmiddle" id="DetailsImageOperations175" onclick="parent.toggleDiv('detailsDIVOperations175','DetailsImageOperations175')" />Details:
+						<div id="detailsDIVOperations175" class="DetailsDiv" >
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					
+					
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			Fügt mehrere Knotenpunkte zur Liste aller gesehenen Knotenpunkte hinzu.
+		</td>
+	</tr>
+</table></div>
+
+						</div>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td width="100%" class="TableRow">
+					<i>Public</i><br />
+					<strong>findPath</strong>(					<a href="#" onclick="parent.toggleData('param{4194189C-80DD-4204-9E23-6DA73F78AEE4}')" style="text-decoration: none; color: #000000;"><img src="../../images/plus03.gif" align="absmiddle" id="param{4194189C-80DD-4204-9E23-6DA73F78AEE4}" border="0" />start: <a href="EA117.htm">StartNode</a></a>, 
+					<table border="0" cellspacing="0" cellpadding="0" class="Table" style="padding: 4px 18px;">
+						<tr id="param{4194189C-80DD-4204-9E23-6DA73F78AEE4}00" style="display: none;">
+							<td width="50"><strong>Default:</strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{4194189C-80DD-4204-9E23-6DA73F78AEE4}01" style="display: none;">
+							<td width="50"><strong>Kind:</strong></td>
+							<td>in</td>
+						</tr>
+						<tr id="param{4194189C-80DD-4204-9E23-6DA73F78AEE4}02" style="display: none;">
+							<td width="50"><strong>Stereotype: </strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{4194189C-80DD-4204-9E23-6DA73F78AEE4}03" style="display: none;">
+							<td width="50"></td>
+							<td><div class="ObjectDetailsNotes">Der Startknotenpunkt</div>
+</td>
+						</tr>
+					</table>
+):<a href="EA115.htm">Node</a>
+				</td>
+			</tr>
+			<tr>
+				<td class="TableRowBottomDashed"  colspan="1">
+					<div class="DetailsDivParent"><img src="../../images/minus03.gif" align="absmiddle" id="DetailsImageOperations176" onclick="parent.toggleDiv('detailsDIVOperations176','DetailsImageOperations176')" />Details:
+						<div id="detailsDIVOperations176" class="DetailsDiv" >
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					
+					
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			Der Pfadfindungsalgorithmus
+		</td>
+	</tr>
+</table></div>
+
+						</div>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td width="100%" class="TableRow">
+					<i>Public abstract</i><br />
+					<strong>getChange</strong>(					<a href="#" onclick="parent.toggleData('param{1FD16427-5114-4b0b-A0E6-12FD94E41BBF}')" style="text-decoration: none; color: #000000;"><img src="../../images/plus03.gif" align="absmiddle" id="param{1FD16427-5114-4b0b-A0E6-12FD94E41BBF}" border="0" />to: <a href="EA116.htm">PathNode</a></a>, 
+					<table border="0" cellspacing="0" cellpadding="0" class="Table" style="padding: 4px 18px;">
+						<tr id="param{1FD16427-5114-4b0b-A0E6-12FD94E41BBF}00" style="display: none;">
+							<td width="50"><strong>Default:</strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{1FD16427-5114-4b0b-A0E6-12FD94E41BBF}01" style="display: none;">
+							<td width="50"><strong>Kind:</strong></td>
+							<td>in</td>
+						</tr>
+						<tr id="param{1FD16427-5114-4b0b-A0E6-12FD94E41BBF}02" style="display: none;">
+							<td width="50"><strong>Stereotype: </strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{1FD16427-5114-4b0b-A0E6-12FD94E41BBF}03" style="display: none;">
+							<td width="50"></td>
+							<td><div class="ObjectDetailsNotes">Endknotenpunkt</div>
+</td>
+						</tr>
+					</table>
+					<a href="#" onclick="parent.toggleData('param{16E580D6-F5E2-454b-8F5C-42BC2C616258}')" style="text-decoration: none; color: #000000;"><img src="../../images/plus03.gif" align="absmiddle" id="param{16E580D6-F5E2-454b-8F5C-42BC2C616258}" border="0" />from: <a href="EA116.htm">PathNode</a></a>, 
+					<table border="0" cellspacing="0" cellpadding="0" class="Table" style="padding: 4px 18px;">
+						<tr id="param{16E580D6-F5E2-454b-8F5C-42BC2C616258}00" style="display: none;">
+							<td width="50"><strong>Default:</strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{16E580D6-F5E2-454b-8F5C-42BC2C616258}01" style="display: none;">
+							<td width="50"><strong>Kind:</strong></td>
+							<td>in</td>
+						</tr>
+						<tr id="param{16E580D6-F5E2-454b-8F5C-42BC2C616258}02" style="display: none;">
+							<td width="50"><strong>Stereotype: </strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{16E580D6-F5E2-454b-8F5C-42BC2C616258}03" style="display: none;">
+							<td width="50"></td>
+							<td><div class="ObjectDetailsNotes">Startknotenpunkt</div>
+</td>
+						</tr>
+					</table>
+):double
+				</td>
+			</tr>
+			<tr>
+				<td class="TableRowBottomDashed"  colspan="1">
+					<div class="DetailsDivParent"><img src="../../images/minus03.gif" align="absmiddle" id="DetailsImageOperations177" onclick="parent.toggleDiv('detailsDIVOperations177','DetailsImageOperations177')" />Details:
+						<div id="detailsDIVOperations177" class="DetailsDiv" >
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					
+					
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			Die Differenz der Heuristik von einem zum anderen Knotenpunkt
+		</td>
+	</tr>
+</table></div>
+
+						</div>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td width="100%" class="TableRow">
+					<i>Public abstract</i><br />
+					<strong>getHeuristic</strong>(					<a href="#" onclick="parent.toggleData('param{65E80410-8DEB-4788-A334-5947728399E7}')" style="text-decoration: none; color: #000000;"><img src="../../images/plus03.gif" align="absmiddle" id="param{65E80410-8DEB-4788-A334-5947728399E7}" border="0" />node: type</a>, 
+					<table border="0" cellspacing="0" cellpadding="0" class="Table" style="padding: 4px 18px;">
+						<tr id="param{65E80410-8DEB-4788-A334-5947728399E7}00" style="display: none;">
+							<td width="50"><strong>Default:</strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{65E80410-8DEB-4788-A334-5947728399E7}01" style="display: none;">
+							<td width="50"><strong>Kind:</strong></td>
+							<td>in</td>
+						</tr>
+						<tr id="param{65E80410-8DEB-4788-A334-5947728399E7}02" style="display: none;">
+							<td width="50"><strong>Stereotype: </strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{65E80410-8DEB-4788-A334-5947728399E7}03" style="display: none;">
+							<td width="50"></td>
+							<td><div class="ObjectDetailsNotes">Startknotenpunkt</div>
+</td>
+						</tr>
+					</table>
+):double
+				</td>
+			</tr>
+			<tr>
+				<td class="TableRowBottomDashed"  colspan="1">
+					<div class="DetailsDivParent"><img src="../../images/minus03.gif" align="absmiddle" id="DetailsImageOperations178" onclick="parent.toggleDiv('detailsDIVOperations178','DetailsImageOperations178')" />Details:
+						<div id="detailsDIVOperations178" class="DetailsDiv" >
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					
+					
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			Gibt die geschätzte Heuristik zum Zielknotenpunkt an
+		</td>
+	</tr>
+</table></div>
+
+						</div>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td width="100%" class="TableRow">
+					<i>Public abstract</i><br />
+					<strong>getNext</strong>(					<a href="#" onclick="parent.toggleData('param{540BBC90-98A7-4d4e-90EF-E625C06FEC2C}')" style="text-decoration: none; color: #000000;"><img src="../../images/plus03.gif" align="absmiddle" id="param{540BBC90-98A7-4d4e-90EF-E625C06FEC2C}" border="0" />node: <a href="EA116.htm">PathNode</a></a>, 
+					<table border="0" cellspacing="0" cellpadding="0" class="Table" style="padding: 4px 18px;">
+						<tr id="param{540BBC90-98A7-4d4e-90EF-E625C06FEC2C}00" style="display: none;">
+							<td width="50"><strong>Default:</strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{540BBC90-98A7-4d4e-90EF-E625C06FEC2C}01" style="display: none;">
+							<td width="50"><strong>Kind:</strong></td>
+							<td>in</td>
+						</tr>
+						<tr id="param{540BBC90-98A7-4d4e-90EF-E625C06FEC2C}02" style="display: none;">
+							<td width="50"><strong>Stereotype: </strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{540BBC90-98A7-4d4e-90EF-E625C06FEC2C}03" style="display: none;">
+							<td width="50"></td>
+							<td><div class="ObjectDetailsNotes">Aktueller Knotenpunkt</div>
+</td>
+						</tr>
+					</table>
+):ArrayList&lt;PathNode&gt;
+				</td>
+			</tr>
+			<tr>
+				<td class="TableRowBottomDashed"  colspan="1">
+					<div class="DetailsDivParent"><img src="../../images/minus03.gif" align="absmiddle" id="DetailsImageOperations179" onclick="parent.toggleDiv('detailsDIVOperations179','DetailsImageOperations179')" />Details:
+						<div id="detailsDIVOperations179" class="DetailsDiv" >
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					
+					
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			Alle Folgeknotenpunkte vom aktuellen Knotenpunkt
+		</td>
+	</tr>
+</table></div>
+
+						</div>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td width="100%" class="TableRow">
+					<i>Public abstract</i><br />
+					<strong>isAim</strong>(					<a href="#" onclick="parent.toggleData('param{76087F8E-12BD-4afa-8367-BDB2DE3EDD28}')" style="text-decoration: none; color: #000000;"><img src="../../images/plus03.gif" align="absmiddle" id="param{76087F8E-12BD-4afa-8367-BDB2DE3EDD28}" border="0" />node: <a href="EA116.htm">PathNode</a></a>, 
+					<table border="0" cellspacing="0" cellpadding="0" class="Table" style="padding: 4px 18px;">
+						<tr id="param{76087F8E-12BD-4afa-8367-BDB2DE3EDD28}00" style="display: none;">
+							<td width="50"><strong>Default:</strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{76087F8E-12BD-4afa-8367-BDB2DE3EDD28}01" style="display: none;">
+							<td width="50"><strong>Kind:</strong></td>
+							<td>in</td>
+						</tr>
+						<tr id="param{76087F8E-12BD-4afa-8367-BDB2DE3EDD28}02" style="display: none;">
+							<td width="50"><strong>Stereotype: </strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{76087F8E-12BD-4afa-8367-BDB2DE3EDD28}03" style="display: none;">
+							<td width="50"></td>
+							<td><div class="ObjectDetailsNotes">Der zu testende Knotenpunkt</div>
+</td>
+						</tr>
+					</table>
+):boolean
+				</td>
+			</tr>
+			<tr>
+				<td class="TableRowBottomDashed"  colspan="1">
+					<div class="DetailsDivParent"><img src="../../images/minus03.gif" align="absmiddle" id="DetailsImageOperations180" onclick="parent.toggleDiv('detailsDIVOperations180','DetailsImageOperations180')" />Details:
+						<div id="detailsDIVOperations180" class="DetailsDiv" >
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					
+					
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			Gibt an, ob ein Knotenpunkt der Zielpunkt ist oder nicht.
+		</td>
+	</tr>
+</table></div>
+
+						</div>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td width="100%" class="TableRow">
+					<i>Public</i><br />
+					<strong>removeSeenNote</strong>(					<a href="#" onclick="parent.toggleData('param{CE0BCFDE-C632-4836-A00E-4810A32FAF79}')" style="text-decoration: none; color: #000000;"><img src="../../images/plus03.gif" align="absmiddle" id="param{CE0BCFDE-C632-4836-A00E-4810A32FAF79}" border="0" />node: <a href="EA116.htm">PathNode</a></a>, 
+					<table border="0" cellspacing="0" cellpadding="0" class="Table" style="padding: 4px 18px;">
+						<tr id="param{CE0BCFDE-C632-4836-A00E-4810A32FAF79}00" style="display: none;">
+							<td width="50"><strong>Default:</strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{CE0BCFDE-C632-4836-A00E-4810A32FAF79}01" style="display: none;">
+							<td width="50"><strong>Kind:</strong></td>
+							<td>in</td>
+						</tr>
+						<tr id="param{CE0BCFDE-C632-4836-A00E-4810A32FAF79}02" style="display: none;">
+							<td width="50"><strong>Stereotype: </strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{CE0BCFDE-C632-4836-A00E-4810A32FAF79}03" style="display: none;">
+							<td width="50"></td>
+							<td><div class="ObjectDetailsNotes">Der zu entfernende Knotenpunkt</div>
+</td>
+						</tr>
+					</table>
+):void
+				</td>
+			</tr>
+			<tr>
+				<td class="TableRowBottomDashed"  colspan="1">
+					<div class="DetailsDivParent"><img src="../../images/minus03.gif" align="absmiddle" id="DetailsImageOperations181" onclick="parent.toggleDiv('detailsDIVOperations181','DetailsImageOperations181')" />Details:
+						<div id="detailsDIVOperations181" class="DetailsDiv" >
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					
+					
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			Entfernt einen Knotenpunkt von der Liste aller gesehenen Knotenpunkte.
+		</td>
+	</tr>
+</table></div>
+
+						</div>
+					</div>
+				</td>
+			</tr>
+
+		</table>
+</div>		<div class="ItemBody" id="AssociationsFromTable">
+			<table border="0" cellspacing="0" cellpadding="0" class="Table">
+				<tr>
+					<td width="40%" class="TableHeading">Element</td>
+					<td width="30%" class="TableHeading">Source Role</td>
+					<td width="30%" class="TableHeading">Target Role</td>
+				</tr>
+				<tr>
+					<td width="40%" class="TableRow" valign="top">
+						<a href="EA116.htm">PathNode</a><br />
+						Class &nbsp;
+					</td>
+					<td width="30%" class="TableRow" valign="top">
+						<strong>Name:</strong> seenNotes<br />
+						Alle Knotenpunkte, die im Suchverlauf entdeckt wurden, deren nachfolgende Knotenpunkte aber noch nicht untersucht wurden.
+					</td>
+					<td width="30%" class="TableRow" valign="top">
+						<strong>Name:</strong> &nbsp;<br />
+						&nbsp;	
+					</td>
+				</tr>
+				<tr>
+					<td class="TableRowBottomDashed"  colspan="3">
+						<div class="DetailsDivParent"><img src="../../images/minus03.gif" align="absmiddle" id="DetailsImageLink182" onclick="parent.toggleDiv('detailsDIVLink182','DetailsImageLink182')" />Details:
+							<div id="detailsDIVLink182" class="DetailsDiv" >
+							&nbsp;
+							</div>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td width="40%" class="TableRow" valign="top">
+						<a href="EA116.htm">PathNode</a><br />
+						Class &nbsp;
+					</td>
+					<td width="30%" class="TableRow" valign="top">
+						<strong>Name:</strong> knownNodes<br />
+						Alle Knotenpunkte, die genauso wie ihre Nachfolger schon entdeckt wurden.
+					</td>
+					<td width="30%" class="TableRow" valign="top">
+						<strong>Name:</strong> &nbsp;<br />
+						&nbsp;	
+					</td>
+				</tr>
+				<tr>
+					<td class="TableRowBottomDashed"  colspan="3">
+						<div class="DetailsDivParent"><img src="../../images/minus03.gif" align="absmiddle" id="DetailsImageLink183" onclick="parent.toggleDiv('detailsDIVLink183','DetailsImageLink183')" />Details:
+							<div id="detailsDIVLink183" class="DetailsDiv" >
+							&nbsp;
+							</div>
+						</div>
+					</td>
+				</tr>
+
+			</table>
+		</div>
+		<div class="ItemBody" id="LinksTable">
+			<table align="center" border="0" cellspacing="0" cellpadding="0" class="Table">
+				<tr>
+					<td width="30%" class="TableHeading">Object</td>
+					<td width="10%" class="TableHeading">Type</td>
+					<td width="10%" class="TableHeading">Connection</td>
+					<td width="10%" class="TableHeading">Direction</td>
+					<td width="40%" class="TableHeading">Notes</td>
+				</tr>
+				<tr>
+					<td width="30%" class="TableRow" valign="top"><a href="EA116.htm">PathNode</a></td>
+					<td width="10%" class="TableRow" valign="top">Class</td>
+					<td width="10%" class="TableRow" valign="top">Weak</td>
+					<td width="10%" class="TableRow" valign="top">From</td>
+					<td width="40%" class="TableRow" valign="top">&nbsp;</td>
+				</tr>
+				<tr>
+					<td width="30%" class="TableRow" valign="top"><a href="EA116.htm">PathNode</a></td>
+					<td width="10%" class="TableRow" valign="top">Class</td>
+					<td width="10%" class="TableRow" valign="top">Weak</td>
+					<td width="10%" class="TableRow" valign="top">From</td>
+					<td width="40%" class="TableRow" valign="top">&nbsp;</td>
+				</tr>
+				<tr>
+					<td width="30%" class="TableRow" valign="top"><a href="../EA1/EA1/EA42.htm">ThermFinder</a></td>
+					<td width="10%" class="TableRow" valign="top">Class</td>
+					<td width="10%" class="TableRow" valign="top">Generalization</td>
+					<td width="10%" class="TableRow" valign="top">From</td>
+					<td width="40%" class="TableRow" valign="top">&nbsp;</td>
+				</tr>
+
+			</table>
+		</div>
+	</div>
+<div class="pageFooter"></div>
+ 
+</body>
+</html>
